@@ -23,6 +23,7 @@ public class Contato {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	private String email;
+	private String telefone;
 
 	public Contato() {
 
@@ -59,5 +60,15 @@ public class Contato {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
+	
 
 }

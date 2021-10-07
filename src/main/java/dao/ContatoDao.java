@@ -42,13 +42,21 @@ public class ContatoDao {
 		em.close();
 	}
 
-	public void remover(int id) {
+	public void merge(Contato contato) {
+		em.getTransaction().begin();
+		em.merge(contato);
+		em.getTransaction().commit();
+		em.close();
+
+	}
+	
+	public void remover(Contato contato) {
+
 		EntityManager em = JPAUtil.getEntityManager();
 		this.em = em;
-
-		Contato contato = em.getReference(Contato.class, id);
-
+		
 		em.getTransaction().begin();
+		contato = em.merge(contato);
 		this.em.remove(contato);
 		em.getTransaction().commit();
 		em.close();

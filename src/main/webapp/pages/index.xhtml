@@ -17,7 +17,10 @@
 
 			<p:outputLabel value="Nome:" />
 			<p:inputText value="#{contatoBean.contato.nome}" />
-
+			
+			<p:outputLabel value="Telefone" />
+			<p:inputText value="#{contatoBean.contato.telefone}" />
+			
 			<p:outputLabel value="Nascimento" />
              <p:datePicker id="basic" value="#{contatoBean.contato.dataNascimento}" />
 
@@ -30,6 +33,10 @@
 
 
 		</h:panelGrid>
+			<h:panelGrid>
+			<p:commandButton value="Voltar" action="agenda.xhtml" />
+		</h:panelGrid>
+		
 	</h:form>
 
 

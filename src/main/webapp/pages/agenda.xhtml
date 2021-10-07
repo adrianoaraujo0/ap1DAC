@@ -11,12 +11,11 @@
 </h:head>
 <h:body>
 
-	<h:form>
 
-
+	<h:form id="frmContListagem">
 	<f:event listener="#{contatoBean.carregarListagem}" type="preRenderView" />
 
-		<p:dataTable value="#{contatoBean.contatos}" var="item">
+		<p:dataTable id="tblContato" value="#{contatoBean.contatos}" var="item">
 			<f:facet name="header">	AGENDA - LISTAGEM</f:facet>
 
 			<p:column headerText="ID">
@@ -27,22 +26,149 @@
 				<h:outputText value="#{item.nome}" />
 			</p:column>
 
+			<p:column headerText="Telefone">
+				<h:outputText value="#{item.telefone}" />
+			</p:column>
+			
+			
 			<p:column headerText="Nascimento:">
 				<h:outputText  value="#{item.dataNascimento}" />
 			</p:column>
 
 
-			<p:column headerText="Email:">
-				<h:outputText value="#{item.email}" />
+			
+			<p:column headerText="Opções">
+			
+				   <p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgContExcluir').show()"
+						update=":frmContExcluir:pnlContExcluir">
+						<f:setPropertyActionListener value="#{item}"
+							target="#{contatoBean.contato}" />
+							
+						</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgContEditar').show()"
+						update=":frmContEditar:pnlContEditar">
+						
+						<f:setPropertyActionListener value="#{item}"
+							target="#{contatoBean.contato}" />
+							
+						</p:commandButton>
+						
+						
+					<p:commandButton icon="ui-icon-phone" action="#{contatoBean.showMessage}">
+  							<f:setPropertyActionListener value="#{item}"
+							target="#{contatoBean.contato}" />
+					</p:commandButton>
 			</p:column>
-
-
+			
 		</p:dataTable>
 
 		<h:panelGrid>
 			<p:commandButton value="Voltar" action="index.xhtml" />
 		</h:panelGrid>
-
+	
 	</h:form>
+
+
+
+	<p:dialog widgetVar="dlgContEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Contato - Editar">
+
+			<h:form id="frmContEditar">
+
+				<h:panelGrid id="pnlContEditar" columns="2">
+					<p:outputLabel value="Id:" />
+					<h:outputText value="#{contatoBean.contato.id}" />
+
+					<p:outputLabel for="txtNomeContEditar" value="Nome" />
+					<p:inputText id="txtNomeContEditar" size="30" maxlength="50"
+						value="#{contatoBean.contato.nome}"/>
+						
+					<p:outputLabel for="txtEmailContEditar" value="Email" />
+					<p:inputText id="txtEmailContEditar" size="30" maxlength="50"
+						value="#{contatoBean.contato.email}"/>
+						
+					<p:outputLabel for="txtTelefoneContEditar" value="Telefone" />
+					<p:inputText id="txtTelefoneContEditar" size="30" maxlength="50"
+						value="#{contatoBean.contato.telefone}"/>
+						
+					
+					
+					<p:outputLabel for="txtNascContEditar" value="Data de nascimento:" />
+				    <p:datePicker id="txtNascContEditar" value="#{contatoBean.contato.dataNascimento}" />
+				    
+				    
+					
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2">
+
+					<p:commandButton value="Editar"
+						actionListener="#{contatoBean.editar}"
+						onclick="PF('dlgContEditar').hide()"
+							update=":frmContListagem:tblContato" />
+
+
+					<p:commandButton value="Cancelar" process="@this"
+						onclick="PF('dlgContEditar').hide()">
+						<p:resetInput target="pnlContEditar" />
+					</p:commandButton>
+
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:dialog>
+	
+	
+	
+	<p:dialog widgetVar="dlgContExcluir" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="CONTATO - EXCLUIR">
+			<h:form id="frmContExcluir">
+
+				<h:panelGrid id="pnlContExcluir" columns="2">
+
+					<h:outputText value="ID" />
+					<h:outputText value="#{contatoBean.contato.id}" />
+
+					<h:outputText value="Nome" />
+					<h:outputText value="#{contatoBean.contato.nome}" />
+					
+					<h:outputText value="Email" />
+					<h:outputText value="#{contatoBean.contato.email}" />
+					
+					<h:outputText value="Telefone" />
+					<h:outputText value="#{contatoBean.contato.telefone}" />
+					
+					<h:outputText value="Data de nascimento" />
+					<h:outputText value="#{contatoBean.contato.dataNascimento}" />
+					
+					
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+
+					<p:commandButton value="Excluir"
+						actionListener="#{contatoBean.excluir}"
+						oncomplete="PF('dlgContExcluir').hide();"
+						update=":frmContListagem:tblContato" />
+
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgContExcluir').hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:dialog>
+		
+		
+	
+	
 </h:body>
 </html>
